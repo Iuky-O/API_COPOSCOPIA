@@ -17,6 +17,7 @@ model = load_model(MODEL_NAME)
 
 
 def predict_image(image_base64: str):
+    # Decodifica imagem
     img_data = base64.b64decode(image_base64)
     np_arr = np.frombuffer(img_data, np.uint8)
     img = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
@@ -25,12 +26,16 @@ def predict_image(image_base64: str):
     img_array = np.expand_dims(img, axis=0)
     img_array = img_array / 255.0
 
+    # Predição
     preds = model.predict(img_array)
     predicted_class = np.argmax(preds, axis=1)
     predicted_label = class_names[predicted_class[0]]
     predicted_label_pt = class_names_pt[predicted_class[0]]
+    confidence = float(np.max(preds[0]) * 100)
 
     return {
         "prediction_en": predicted_label,
-        "prediction_pt": predicted_label_pt
+        "prediction_pt": predicted_label_pt,
+        "confidence": round(confidence, 2)
     }
+

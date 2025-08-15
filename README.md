@@ -64,6 +64,8 @@ pip install -r requirements.txt
 
 ## 📚 Rodando
 
+Não esqueça de configurar seu .env e settings.toml na raiz do projeto.
+
 Para rodar você só precisa rodar este comando no terminal:
 
 ```bash
